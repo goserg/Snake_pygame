@@ -3,11 +3,9 @@ import pygame
 
 class Cube(object):
 
-    def __init__(self, position, window_size, cell_size, color):
-        self.window_size = window_size
+    def __init__(self, position, cell_size, color):
         self.cell_size = cell_size
         self.color = color
-        self.rows = self.window_size // self.cell_size
         self.position = position
 
     def tick(self):
