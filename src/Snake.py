@@ -1,4 +1,4 @@
-from src.Cube import Cube
+from Cube import Cube
 
 
 class Snake(object):
@@ -8,7 +8,7 @@ class Snake(object):
         self.color = color
         self.rows = self.window_size//self.cell_size
         self.position = [5, 5]
-        self.dx = 0
+        self.dx = 1
         self.dy = 0
         self.size = 1
         self.body = []
@@ -16,7 +16,7 @@ class Snake(object):
 
     def move(self, direct):
         self.body.append(Cube(self.position[:], self.cell_size, self.color))
-        if direct is not None:
+        if direct != (0, 0):
             if self.dx != -direct[0]:
                 self.dx = direct[0]
             if self.dy != -direct[1]:
@@ -43,11 +43,13 @@ class Snake(object):
                 print("score:", self.size - 1)
                 self.__init__(self.window_size, self.cell_size, self.color)
                 food.random_food()
+                return True
         for b in border:
             if head.position == list(b.position):
                 print("score:", self.size - 1)
                 self.__init__(self.window_size, self.cell_size, self.color)
                 food.random_food()
+                return True
         if head.position == food.position:
             self.size += 1
             food.random_food()

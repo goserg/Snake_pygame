@@ -1,4 +1,4 @@
-from src.Cube import Cube
+from Cube import Cube
 
 
 class Border:
@@ -11,7 +11,10 @@ class Border:
 
     def generate_border(self):
         n = self.window_size//self.cell_size
+        gap = 2
         for i in range(0, n):
+            if n//2 - gap < i < n//2 + gap:
+                continue
             self.border.append(Cube([0, i], self.cell_size, self.color))
             self.border.append(Cube([n-1, i], self.cell_size, self.color))
             self.border.append(Cube([i, 0], self.cell_size, self.color))
