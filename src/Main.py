@@ -1,5 +1,6 @@
 from src.Snake import Snake
 from src.Grid import Grid
+from src.Food import Food
 import pygame
 
 cell_size = 20
@@ -13,12 +14,14 @@ pygame.display.set_caption("Snake v0.1")
 
 snake = Snake(window_size, cell_size, color=(0, 0, 150))
 grid = Grid(window_size, cell_size, color=(50, 50, 50))
+food = Food(window_size, cell_size, color=(0, 150, 0))
 
 
 def draw():
     win.fill((0, 0, 0))
     snake.draw(win)
     grid.draw(win)
+    food.draw(win)
     pygame.display.update()
 
 
@@ -46,6 +49,7 @@ while run:
             run = False
 
     snake.move(get_direction())
+    snake.check_collision(food)
     draw()
 
 pygame.quit()

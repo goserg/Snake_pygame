@@ -1,47 +1,50 @@
-import pygame
 from src.Cube import Cube
 
 
 class Snake(object):
-    body = []
-
     def __init__(self, window_size, cell_size, color):
         self.window_size = window_size
         self.cell_size = cell_size
         self.color = color
         self.rows = self.window_size//self.cell_size
-        self.x = 5
-        self.dx = 1
-        self.y = 5
+        self.position = [5, 5]
+        self.dx = 0
         self.dy = 0
-        self.body.append(Cube(self.x, self.y, window_size, cell_size, color))
+        self.size = 1
+        self.body = []
+        self.body.append(Cube(self.position, window_size, cell_size, color))
 
     def move(self, direct):
+        self.body.append(Cube(self.position[:], self.window_size, self.cell_size, self.color))
         if direct is not None:
-            self.dx = direct[0]
-            self.dy = direct[1]
-        self.x += self.dx
-        if self.x >= self.window_size//self.cell_size:
-            self.x = 0
-        elif self.x < 0:
-            self.x = self.window_size//self.cell_size - 1
-        self.y += self.dy
-        if self.y > self.window_size//self.cell_size - 1:
-            self.y = 0
-        elif self.y < 0:
-            self.y = self.window_size // self.cell_size - 1
-        self.body.append(Cube(self.x, self.y, self.window_size, self.cell_size, self.color))
-        if len(self.body) > 15:
+            if self.dx != -direct[0]:
+                self.dx = direct[0]
+            if self.dy != -direct[1]:
+                self.dy = direct[1]
+        self.position[0] += self.dx
+        if self.position[0] >= self.window_size//self.cell_size:
+            self.position[0] = 0
+        elif self.position[0] < 0:
+            self.position[0] = self.window_size//self.cell_size - 1
+        self.position[1] += self.dy
+        if self.position[1] > self.window_size//self.cell_size - 1:
+            self.position[1] = 0
+        elif self.position[1] < 0:
+            self.position[1] = self.window_size // self.cell_size - 1
+        if len(self.body) > self.size:
             self.body.pop(0)
-        self.check_collision()
         for i in self.body:
             i.tick()
 
-    def check_collision(self):
+    def check_collision(self, food):
         head = self.body[-1]
         for i in self.body[:-1]:
-            if i.x == head.x and i.y == head.y:
-                print("collision")
+            if i.position == head.position and self.size > 3:
+                self.__init__(self.window_size, self.cell_size, self.color)
+                food.random_food(occupied=self.body)
+        if self.body[-1].position == food.position:
+            self.size += 1
+            food.random_food(occupied=self.body)
 
     def draw(self, surface):
         for i in self.body:
