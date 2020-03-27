@@ -11,19 +11,24 @@ class Menu:
         self.state = 0
         self.controller = Controller()
         self.grid = "On"
+        self.scale = 1
 
     def draw(self, surface):
-        self.message_display('PLAY', surface, self.selected_color if self.state == 0 else self.shaded_color, 0)
-        self.message_display('grid: {}'.format(self.grid), surface, self.selected_color if self.state == 1 else self.shaded_color, 1)
-        self.message_display('about', surface, self.selected_color if self.state == 2 else self.shaded_color, 2)
-        self.message_display('quit', surface, self.selected_color if self.state == 3 else self.shaded_color, 3)
+        self.message_display('PLAY', surface,
+                             self.selected_color if self.state == 0 else self.shaded_color, -1)
+        self.message_display('grid: {}'.format(self.grid), surface,
+                             self.selected_color if self.state == 1 else self.shaded_color, 0)
+        self.message_display('scale: x{}'.format(self.scale), surface,
+                             self.selected_color if self.state == 2 else self.shaded_color, 1)
+        self.message_display('quit', surface,
+                             self.selected_color if self.state == 3 else self.shaded_color, 2)
 
     def message_display(self, text, surface, color, n):
         size = int(50 * self.scale)
         font = pygame.font.Font('freesansbold.ttf', size)
         text_surf = font.render(text, True, color)
         text_rect = text_surf.get_rect()
-        text_rect.center = ((self.window_size / 2), (self.window_size / 2) + n * size)
+        text_rect.center = ((self.window_size * self.scale/ 2), (self.window_size * self.scale / 2) + n * size)
         surface.blit(text_surf, text_rect)
         pygame.display.update()
 
@@ -40,6 +45,9 @@ class Menu:
             self.grid = "Off"
             return
         self.grid = "On"
+
+    def switch_scale(self):
+        self.scale = 1 if self.scale == 1.5 else 1.5
 
     def switch_up(self):
         if self.state == 0:

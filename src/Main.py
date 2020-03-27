@@ -4,7 +4,6 @@ from Food import Food
 from Border import Border
 from Menu import Menu
 from utils.Controller import Controller
-from utils.JoystickController import JoystickController
 import pygame
 
 scale = 1
@@ -61,6 +60,17 @@ while run:
                     pause = False
                 elif menu.get_state() == 1:
                     menu.switch_grid()
+                    to_draw = True
+                elif menu.get_state() == 2:
+                    menu.switch_scale()
+                    scale = menu.scale
+                    cell_size = int(20 * scale)
+                    window_size = int(500 * scale)
+                    win = pygame.display.set_mode((window_size, window_size))
+                    border = Border(window_size, cell_size)
+                    snake = Snake(window_size, cell_size, color=(0, 0, 150))
+                    grid = Grid(window_size, cell_size, color=(50, 50, 50))
+                    food = Food(window_size, cell_size, snake, border, color=(0, 150, 0))
                     to_draw = True
                 elif menu.get_state() == 3:
                     run = False
