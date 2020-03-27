@@ -24,3 +24,7 @@ class JoystickController:
     def is_pause_pressed(self):
         if self.enabled:
             return self.joystick.get_button(7)
+
+    def is_start_pressed(self):
+        if self.enabled:
+            return self.joystick.get_button(0)

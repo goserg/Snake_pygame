@@ -13,11 +13,11 @@ class Cube(object):
         b = self.color[1]
         c = self.color[2]
         if a < 255:
-            a += 5
+            a += 2
         if b < 255:
-            b += 5
+            b += 2
         if c < 255:
-            c += 5
+            c += 2
         self.color = (a, b, c)
 
     def draw(self, surface):

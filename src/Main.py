@@ -3,7 +3,8 @@ from Grid import Grid
 from Food import Food
 from Border import Border
 from Menu import Menu
-from JoystickController import JoystickController
+from utils.Controller import Controller
+from utils.JoystickController import JoystickController
 import pygame
 
 scale = 1
@@ -15,7 +16,7 @@ t = 0
 
 pygame.init()
 win = pygame.display.set_mode((window_size, window_size))
-pygame.display.set_caption("Snake v0.1")
+pygame.display.set_caption("Snake v0.2")
 
 border = Border(window_size, cell_size)
 snake = Snake(window_size, cell_size, color=(0, 0, 150))
@@ -23,7 +24,7 @@ grid = Grid(window_size, cell_size, color=(50, 50, 50))
 food = Food(window_size, cell_size, snake, border, color=(0, 150, 0))
 menu = Menu(window_size, scale)
 
-joystick = JoystickController()
+controller = Controller()
 
 
 def draw():
@@ -33,7 +34,8 @@ def draw():
     food.draw(win)
     border.draw(win)
 
-    grid.draw(win)
+    if menu.grid == "On":
+        grid.draw(win)
 
     if pause:
         menu.draw(win)
@@ -41,56 +43,41 @@ def draw():
     pygame.display.update()
 
 
-def get_direction():
-    direct = joystick.get_hat()
-    if direct is None:
-        if keys[pygame.K_DOWN]:
-            direct = (0, 1)
-        elif keys[pygame.K_UP]:
-            direct = (0, -1)
-        elif keys[pygame.K_RIGHT]:
-            direct = (1, 0)
-        elif keys[pygame.K_LEFT]:
-            direct = (-1, 0)
-        else:
-            direct = (0, 0)
-
-    return direct
-
-
 pause = True
 run = True
-first = True
+to_draw = True
 while run:
     pygame.time.delay(delay)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-    keys = pygame.key.get_pressed()
 
     if t == game_delay:
         t = 0
-        if keys[pygame.K_SPACE] or joystick.is_pause_pressed():
+        if controller.is_start_pressed():
             if pause:
                 if menu.get_state() == 0:
                     pause = False
+                elif menu.get_state() == 1:
+                    menu.switch_grid()
+                    to_draw = True
                 elif menu.get_state() == 3:
                     run = False
-            else:
-                pause = True
-            draw()
+        elif controller.is_pause_pressed():
+            pause = True
+            to_draw = True
         if not pause:
-            snake.move(get_direction())
+            snake.move(controller.get_direction())
             if snake.check_collision(food=food, border=border.border):
                 pause = True
-            draw()
+            to_draw = True
         else:
-            if menu.switch(joystick.get_hat(), keys):
-                draw()
-    if first:
+            if menu.switch():
+                to_draw = True
+    if to_draw:
         draw()
-        first = False
+        to_draw = False
     t += 1
 
 pygame.quit()
