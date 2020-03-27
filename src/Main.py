@@ -4,6 +4,7 @@ from Food import Food
 from Border import Border
 from Menu import Menu
 from utils.Controller import Controller
+from utils.JoystickController import JoystickController
 import pygame
 
 scale = 1
@@ -24,6 +25,8 @@ food = Food(window_size, cell_size, snake, border, color=(0, 150, 0))
 menu = Menu(window_size, scale)
 
 controller = Controller()
+Controller.joystick = JoystickController()
+Controller.keys = pygame.key.get_pressed()
 
 
 def draw():
@@ -52,9 +55,10 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
+    Controller.get_keys()
     if t == game_delay:
         t = 0
-        if controller.is_start_pressed():
+        if Controller.is_start_pressed():
             if pause:
                 if menu.get_state() == 0:
                     pause = False
@@ -74,11 +78,11 @@ while run:
                     to_draw = True
                 elif menu.get_state() == 3:
                     run = False
-        elif controller.is_pause_pressed():
+        elif Controller.is_pause_pressed():
             pause = True
             to_draw = True
         if not pause:
-            snake.move(controller.get_direction())
+            snake.move(Controller.get_direction())
             if snake.check_collision(food=food, border=border.border):
                 pause = True
             to_draw = True

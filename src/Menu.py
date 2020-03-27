@@ -9,7 +9,6 @@ class Menu:
         self.selected_color = (200, 200, 200)
         self.shaded_color = (100, 100, 100)
         self.state = 0
-        self.controller = Controller()
         self.grid = "On"
         self.scale = 1
 
@@ -33,10 +32,10 @@ class Menu:
         pygame.display.update()
 
     def switch(self):
-        if self.controller.get_direction()[1] == -1:
+        if Controller.get_direction()[1] == -1:
             self.switch_up()
             return True
-        elif self.controller.get_direction()[1] == 1:
+        elif Controller.get_direction()[1] == 1:
             self.switch_down()
             return True
 
