@@ -34,8 +34,10 @@ def draw():
     border.draw(win)
 
     grid.draw(win)
+
     if pause:
         menu.draw(win)
+
     pygame.display.update()
 
 
@@ -58,6 +60,7 @@ def get_direction():
 
 pause = True
 run = True
+first = True
 while run:
     pygame.time.delay(delay)
 
@@ -69,12 +72,25 @@ while run:
     if t == game_delay:
         t = 0
         if keys[pygame.K_SPACE] or joystick.is_pause_pressed():
-            pause = not pause
+            if pause:
+                if menu.get_state() == 0:
+                    pause = False
+                elif menu.get_state() == 3:
+                    run = False
+            else:
+                pause = True
+            draw()
         if not pause:
             snake.move(get_direction())
             if snake.check_collision(food=food, border=border.border):
                 pause = True
+            draw()
+        else:
+            if menu.switch(joystick.get_hat(), keys):
+                draw()
+    if first:
         draw()
+        first = False
     t += 1
 
 pygame.quit()
