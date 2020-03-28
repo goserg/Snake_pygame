@@ -20,15 +20,15 @@ class Snake(object):
             if self.dy != -direct[1]:
                 self.dy = direct[1]
         self.position[0] += self.dx
-        if self.position[0] >= s.window_size * s.scale//s.cell_size * s.scale:
+        if self.position[0] >= s.window_size//s.cell_size:
             self.position[0] = 0
         elif self.position[0] < 0:
-            self.position[0] = s.window_size * s.scale//s.cell_size * s.scale - 1
+            self.position[0] = s.window_size//s.cell_size - 1
         self.position[1] += self.dy
-        if self.position[1] > s.window_size * s.scale//s.cell_size * s.scale - 1:
+        if self.position[1] > s.window_size//s.cell_size - 1:
             self.position[1] = 0
         elif self.position[1] < 0:
-            self.position[1] = s.window_size * s.scale//s.cell_size * s.scale - 1
+            self.position[1] = s.window_size//s.cell_size - 1
         if len(self.body) > self.size:
             self.body.pop(0)
         for i in self.body:
