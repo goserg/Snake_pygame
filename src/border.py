@@ -1,4 +1,4 @@
-from Cube import Cube
+from cube import Cube
 
 
 class Border:

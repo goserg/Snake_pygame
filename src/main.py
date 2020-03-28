@@ -1,10 +1,10 @@
-from Snake import Snake
-from Grid import Grid
-from Food import Food
-from Border import Border
-from Menu import Menu
-from utils.JoystickController import JoystickController
-import utils.Controller as Controller
+from snake import Snake
+from grid import Grid
+from food import Food
+from border import Border
+from menu import Menu
+from utils.joystick_controller import JoystickController
+import utils.controller as controller
 import pygame
 
 scale = 1
@@ -24,8 +24,8 @@ grid = Grid(window_size, cell_size, color=(50, 50, 50))
 food = Food(window_size, cell_size, snake, border, color=(0, 150, 0))
 menu = Menu(window_size, scale)
 
-Controller.joystick = JoystickController()
-Controller.keys = pygame.key.get_pressed()
+controller.joystick = JoystickController()
+controller.keys = pygame.key.get_pressed()
 
 
 def draw():
@@ -54,10 +54,10 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    Controller.get_keys()
+    controller.get_keys()
     if t == game_delay:
         t = 0
-        if Controller.is_start_pressed():
+        if controller.is_start_pressed():
             if pause:
                 if menu.get_state() == 0:
                     pause = False
@@ -77,11 +77,11 @@ while run:
                     to_draw = True
                 elif menu.get_state() == 3:
                     run = False
-        elif Controller.is_pause_pressed():
+        elif controller.is_pause_pressed():
             pause = True
             to_draw = True
         if not pause:
-            snake.move(Controller.get_direction())
+            snake.move(controller.get_direction())
             if snake.check_collision(food=food, border=border.border):
                 pause = True
             to_draw = True

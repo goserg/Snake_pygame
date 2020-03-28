@@ -1,5 +1,5 @@
 import pygame
-import utils.Controller as Controller
+import utils.controller as controller
 
 
 class Menu:
@@ -32,10 +32,10 @@ class Menu:
         pygame.display.update()
 
     def switch(self):
-        if Controller.get_direction()[1] == -1:
+        if controller.get_direction()[1] == -1:
             self.switch_up()
             return True
-        elif Controller.get_direction()[1] == 1:
+        elif controller.get_direction()[1] == 1:
             self.switch_down()
             return True
 
