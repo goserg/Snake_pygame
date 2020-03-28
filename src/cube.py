@@ -1,4 +1,5 @@
 import utils.settings as s
+from window_manager import window
 import pygame
 
 
@@ -18,7 +19,7 @@ class Cube:
         c = c + n if c < 255 - n else 255
         self.color = (a, b, c)
 
-    def draw(self, surface):
-        pygame.draw.rect(surface, self.color, (self.position[0] * s.cell_size * s.scale,
-                                               self.position[1] * s.cell_size * s.scale,
-                                               s.cell_size * s.scale, s.cell_size * s.scale))
+    def draw(self):
+        pygame.draw.rect(window, self.color, (self.position[0] * s.cell_size * s.scale,
+                                              self.position[1] * s.cell_size * s.scale,
+                                              s.cell_size * s.scale, s.cell_size * s.scale))

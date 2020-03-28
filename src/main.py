@@ -3,18 +3,14 @@ from grid import Grid
 from food import Food
 from border import Border
 from menu import Menu
+import window_manager
+from window_manager import window
 from utils.joystick_controller import JoystickController
 import utils.controller as controller
 import utils.settings as s
 import pygame
 
-delay = 10
-game_delay = 10
-t = 0
-
 pygame.init()
-win = pygame.display.set_mode((int(s.window_size * s.scale), int(s.window_size * s.scale)))
-pygame.display.set_caption("Snake v0.2")
 
 border = Border()
 snake = Snake()
@@ -27,17 +23,17 @@ controller.keys = pygame.key.get_pressed()
 
 
 def draw():
-    win.fill((0, 0, 0))
+    window.fill((0, 0, 0))
 
-    snake.draw(win)
-    food.draw(win)
-    border.draw(win)
+    snake.draw()
+    food.draw()
+    border.draw()
 
-    if menu.grid == "On":
-        grid.draw(win)
+    if s.grid:
+        grid.draw()
 
     if pause:
-        menu.draw(win)
+        menu.draw()
 
     pygame.display.update()
 
@@ -45,27 +41,27 @@ def draw():
 pause = True
 run = True
 to_draw = True
+t = 0
 while run:
-    pygame.time.delay(delay)
+    pygame.time.delay(s.main_loop_delay)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
 
     controller.get_keys()
-    if t == game_delay:
+    if t == s.game_update_delay:
         t = 0
         if controller.is_start_pressed():
             if pause:
                 if menu.get_state() == 0:
                     pause = False
                 elif menu.get_state() == 1:
-                    menu.switch_grid()
+                    s.grid = not s.grid
                     to_draw = True
                 elif menu.get_state() == 2:
-                    menu.switch_scale()
                     s.switch_scale()
-                    win = pygame.display.set_mode((int(s.window_size * s.scale), int(s.window_size * s.scale)))
+                    window_manager.update_mode()
                     to_draw = True
                 elif menu.get_state() == 3:
                     run = False

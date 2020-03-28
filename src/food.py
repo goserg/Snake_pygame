@@ -1,3 +1,4 @@
+from window_manager import window
 import utils.settings as s
 import pygame
 from random import randrange
@@ -11,8 +12,8 @@ class Food:
         self.border = border
         self.random_food()
 
-    def draw(self, surface):
-        pygame.draw.rect(surface, s.food_color, (self.position[0] * s.cell_size * s.scale,
+    def draw(self):
+        pygame.draw.rect(window, s.food_color, (self.position[0] * s.cell_size * s.scale,
                                                  self.position[1] * s.cell_size * s.scale,
                                                  s.cell_size * s.scale,
                                                  s.cell_size * s.scale))

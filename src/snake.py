@@ -52,6 +52,6 @@ class Snake(object):
             self.size += 1
             food.random_food()
 
-    def draw(self, surface):
+    def draw(self):
         for i in self.body:
-            i.draw(surface)
+            i.draw()
