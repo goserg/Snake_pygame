@@ -9,15 +9,13 @@ class Cube(object):
         self.position = position
 
     def tick(self):
+        n = 2
         a = self.color[0]
         b = self.color[1]
         c = self.color[2]
-        if a < 255:
-            a += 2
-        if b < 255:
-            b += 2
-        if c < 255:
-            c += 2
+        a = a + n if a < 255 - n else 255
+        b = b + n if b < 255 - n else 255
+        c = c + n if c < 255 - n else 255
         self.color = (a, b, c)
 
     def draw(self, surface):
