@@ -1,11 +1,10 @@
+import utils.settings as s
 import pygame
 import utils.controller as controller
 
 
 class Menu:
-    def __init__(self, window_size, scale):
-        self.scale = scale
-        self.window_size = window_size
+    def __init__(self):
         self.selected_color = (200, 200, 200)
         self.shaded_color = (100, 100, 100)
         self.state = 0
@@ -23,11 +22,11 @@ class Menu:
                              self.selected_color if self.state == 3 else self.shaded_color, 2)
 
     def message_display(self, text, surface, color, n):
-        size = int(50 * self.scale)
+        size = int(50 * s.scale)
         font = pygame.font.Font('freesansbold.ttf', size)
         text_surf = font.render(text, True, color)
         text_rect = text_surf.get_rect()
-        text_rect.center = ((self.window_size * self.scale/ 2), (self.window_size * self.scale / 2) + n * size)
+        text_rect.center = ((s.window_size * s.scale / 2), (s.window_size * s.scale / 2) + n * size)
         surface.blit(text_surf, text_rect)
         pygame.display.update()
 

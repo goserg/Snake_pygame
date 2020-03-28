@@ -1,36 +1,34 @@
+import utils.settings as s
 from cube import Cube
 
 
 class Snake(object):
-    def __init__(self, window_size, cell_size, color):
-        self.window_size = window_size
-        self.cell_size = cell_size
-        self.color = color
-        self.rows = self.window_size//self.cell_size
+    def __init__(self):
+        self.rows = s.window_size * s.scale//s.cell_size * s.scale
         self.position = [5, 5]
         self.dx = 1
         self.dy = 0
         self.size = 1
         self.body = []
-        self.body.append(Cube(self.position, cell_size, color))
+        self.body.append(Cube(self.position, s.snake_color))
 
     def move(self, direct):
-        self.body.append(Cube(self.position[:], self.cell_size, self.color))
+        self.body.append(Cube(self.position[:], s.snake_color))
         if direct != (0, 0):
             if self.dx != -direct[0]:
                 self.dx = direct[0]
             if self.dy != -direct[1]:
                 self.dy = direct[1]
         self.position[0] += self.dx
-        if self.position[0] >= self.window_size//self.cell_size:
+        if self.position[0] >= s.window_size * s.scale//s.cell_size * s.scale:
             self.position[0] = 0
         elif self.position[0] < 0:
-            self.position[0] = self.window_size//self.cell_size - 1
+            self.position[0] = s.window_size * s.scale//s.cell_size * s.scale - 1
         self.position[1] += self.dy
-        if self.position[1] > self.window_size//self.cell_size - 1:
+        if self.position[1] > s.window_size * s.scale//s.cell_size * s.scale - 1:
             self.position[1] = 0
         elif self.position[1] < 0:
-            self.position[1] = self.window_size // self.cell_size - 1
+            self.position[1] = s.window_size * s.scale//s.cell_size * s.scale - 1
         if len(self.body) > self.size:
             self.body.pop(0)
         for i in self.body:
@@ -41,13 +39,13 @@ class Snake(object):
         for i in self.body[:-1]:
             if i.position == head.position and self.size > 3:
                 print("score:", self.size - 1)
-                self.__init__(self.window_size, self.cell_size, self.color)
+                self.__init__()
                 food.random_food()
                 return True
         for b in border:
             if head.position == list(b.position):
                 print("score:", self.size - 1)
-                self.__init__(self.window_size, self.cell_size, self.color)
+                self.__init__()
                 food.random_food()
                 return True
         if head.position == food.position:

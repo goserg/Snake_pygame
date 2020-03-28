@@ -5,24 +5,22 @@ from border import Border
 from menu import Menu
 from utils.joystick_controller import JoystickController
 import utils.controller as controller
+import utils.settings as s
 import pygame
 
-scale = 1
-cell_size = int(20 * scale)
-window_size = int(500 * scale)
 delay = 10
 game_delay = 10
 t = 0
 
 pygame.init()
-win = pygame.display.set_mode((window_size, window_size))
+win = pygame.display.set_mode((int(s.window_size * s.scale), int(s.window_size * s.scale)))
 pygame.display.set_caption("Snake v0.2")
 
-border = Border(window_size, cell_size)
-snake = Snake(window_size, cell_size, color=(0, 0, 150))
-grid = Grid(window_size, cell_size, color=(50, 50, 50))
-food = Food(window_size, cell_size, snake, border, color=(0, 150, 0))
-menu = Menu(window_size, scale)
+border = Border()
+snake = Snake()
+grid = Grid()
+food = Food(snake, border)
+menu = Menu()
 
 controller.joystick = JoystickController()
 controller.keys = pygame.key.get_pressed()
@@ -66,14 +64,8 @@ while run:
                     to_draw = True
                 elif menu.get_state() == 2:
                     menu.switch_scale()
-                    scale = menu.scale
-                    cell_size = int(20 * scale)
-                    window_size = int(500 * scale)
-                    win = pygame.display.set_mode((window_size, window_size))
-                    border = Border(window_size, cell_size)
-                    snake = Snake(window_size, cell_size, color=(0, 0, 150))
-                    grid = Grid(window_size, cell_size, color=(50, 50, 50))
-                    food = Food(window_size, cell_size, snake, border, color=(0, 150, 0))
+                    s.switch_scale()
+                    win = pygame.display.set_mode((int(s.window_size * s.scale), int(s.window_size * s.scale)))
                     to_draw = True
                 elif menu.get_state() == 3:
                     run = False

@@ -1,10 +1,10 @@
+import utils.settings as s
 import pygame
 
 
-class Cube(object):
+class Cube:
 
-    def __init__(self, position, cell_size, color):
-        self.cell_size = cell_size
+    def __init__(self, position, color):
         self.color = color
         self.position = position
 
@@ -19,5 +19,6 @@ class Cube(object):
         self.color = (a, b, c)
 
     def draw(self, surface):
-        pygame.draw.rect(surface, self.color, (self.position[0] * self.cell_size, self.position[1] * self.cell_size,
-                                               self.cell_size, self.cell_size))
+        pygame.draw.rect(surface, self.color, (self.position[0] * s.cell_size * s.scale,
+                                               self.position[1] * s.cell_size * s.scale,
+                                               s.cell_size * s.scale, s.cell_size * s.scale))
