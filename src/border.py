@@ -1,5 +1,6 @@
 from cube import Cube
 import utils.settings as s
+import level
 
 
 class Border:
@@ -13,11 +14,15 @@ class Border:
         for i in range(0, n):
             if n//2 - s.gap < i < n//2 + s.gap:
                 continue
-            self.border.append(Cube([0, i], self.color))
-            self.border.append(Cube([n-1, i], self.color))
-            self.border.append(Cube([i, 0], self.color))
-            self.border.append(Cube([i, n-1], self.color))
-
-    def draw(self):
-        for i in self.border:
-            i.draw()
+            cube = Cube([0, i], self.color, "wall")
+            self.border.append(cube)
+            level.add(cube)
+            cube = Cube([n-1, i], self.color, "wall")
+            self.border.append(cube)
+            level.add(cube)
+            cube = Cube([i, 0], self.color, "wall")
+            self.border.append(cube)
+            level.add(cube)
+            cube = Cube([i, n - 1], self.color, "wall")
+            self.border.append(cube)
+            level.add(cube)

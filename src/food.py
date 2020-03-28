@@ -1,29 +1,22 @@
-from window_manager import window
+from cube import Cube
 import utils.settings as s
-import pygame
 from random import randrange
+import level
 
 
 class Food:
-    def __init__(self, snake, border):
+    def __init__(self):
+        self.food = Cube([0, 0], s.food_color, "food")
         self.rows = s.window_size // s.cell_size
-        self.position = [0, 0]
-        self.snake = snake
-        self.border = border
-        self.random_food()
+        self.new_position()
+        level.add(self.food)
 
     def draw(self):
-        pygame.draw.rect(window, s.food_color, (self.position[0] * s.cell_size * s.scale,
-                                                 self.position[1] * s.cell_size * s.scale,
-                                                 s.cell_size * s.scale,
-                                                 s.cell_size * s.scale))
+        self.food.draw()
 
-    def random_food(self):
+    def new_position(self):
         size = s.window_size // s.cell_size
-        self.position = [randrange(size), randrange(size)]
-        for i in self.snake.body:
-            if i.position == self.position:
-                self.random_food()
-        for i in self.border.border:
-            if i.position == self.position:
-                self.random_food()
+        self.food.position = [randrange(size), randrange(size)]
+        for i in level.cubes:
+            if i != self.food and i.position == self.food.position:
+                self.new_position()

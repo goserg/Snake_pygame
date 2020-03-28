@@ -9,13 +9,14 @@ from utils.joystick_controller import JoystickController
 import utils.controller as controller
 import utils.settings as s
 import pygame
+import level
 
 pygame.init()
 
 border = Border()
 snake = Snake()
 grid = Grid()
-food = Food(snake, border)
+food = Food()
 menu = Menu()
 
 controller.joystick = JoystickController()
@@ -25,9 +26,7 @@ controller.keys = pygame.key.get_pressed()
 def draw():
     window.fill((0, 0, 0))
 
-    snake.draw()
-    food.draw()
-    border.draw()
+    level.draw()
 
     if s.grid:
         grid.draw()
@@ -69,8 +68,8 @@ while run:
             pause = True
             to_draw = True
         if not pause:
-            snake.move(controller.get_direction())
-            if snake.check_collision(food=food, border=border.border):
+            snake.move()
+            if snake.check_collision(food):
                 pause = True
             to_draw = True
         else:

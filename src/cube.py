@@ -5,9 +5,11 @@ import pygame
 
 class Cube:
 
-    def __init__(self, position, color):
+    def __init__(self, position, color, tag):
         self.color = color
         self.position = position
+        self.live = True
+        self.tag = tag
 
     def tick(self):
         n = 2

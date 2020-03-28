@@ -1,5 +1,7 @@
 import utils.settings as s
 from cube import Cube
+import utils.controller as controller
+import level
 
 
 class Snake(object):
@@ -10,10 +12,16 @@ class Snake(object):
         self.dy = 0
         self.size = 1
         self.body = []
-        self.body.append(Cube(self.position, s.snake_color))
 
-    def move(self, direct):
-        self.body.append(Cube(self.position[:], s.snake_color))
+        cube = Cube(self.position, s.snake_color, "snake")
+        self.body.append(cube)
+        level.add(cube)
+
+    def move(self):
+        direct = controller.get_direction()
+        cube = Cube(self.position[:], s.snake_color, "snake")
+        self.body.append(cube)
+        level.add(cube)
         if direct != (0, 0):
             if self.dx != -direct[0]:
                 self.dx = direct[0]
@@ -30,28 +38,21 @@ class Snake(object):
         elif self.position[1] < 0:
             self.position[1] = s.window_size//s.cell_size - 1
         if len(self.body) > self.size:
-            self.body.pop(0)
+            level.remove(self.body.pop(0))
         for i in self.body:
             i.tick()
 
-    def check_collision(self, food, border):
+    def check_collision(self, food):
         head = self.body[-1]
-        for i in self.body[:-1]:
-            if i.position == head.position and self.size > 3:
-                print("score:", self.size - 1)
-                self.__init__()
-                food.random_food()
-                return True
-        for b in border:
-            if head.position == list(b.position):
-                print("score:", self.size - 1)
-                self.__init__()
-                food.random_food()
-                return True
-        if head.position == food.position:
-            self.size += 1
-            food.random_food()
-
-    def draw(self):
-        for i in self.body:
-            i.draw()
+        for i in level.cubes:
+            if i.position == head.position and i != head:
+                if i.tag in ["wall", "snake"]:
+                    for b in self.body:
+                        level.remove(b)
+                    print("score:", self.size - 1)
+                    self.__init__()
+                    food.new_position()
+                    return True
+                elif i.tag == "food":
+                    self.size += 1
+                    food.new_position()
