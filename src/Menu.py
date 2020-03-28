@@ -1,5 +1,5 @@
 import pygame
-from utils.Controller import Controller
+import utils.Controller as Controller
 
 
 class Menu:

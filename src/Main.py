@@ -3,8 +3,8 @@ from Grid import Grid
 from Food import Food
 from Border import Border
 from Menu import Menu
-from utils.Controller import Controller
 from utils.JoystickController import JoystickController
+import utils.Controller as Controller
 import pygame
 
 scale = 1
@@ -24,7 +24,6 @@ grid = Grid(window_size, cell_size, color=(50, 50, 50))
 food = Food(window_size, cell_size, snake, border, color=(0, 150, 0))
 menu = Menu(window_size, scale)
 
-controller = Controller()
 Controller.joystick = JoystickController()
 Controller.keys = pygame.key.get_pressed()
 
