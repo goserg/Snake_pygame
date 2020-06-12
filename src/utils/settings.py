@@ -22,6 +22,6 @@ main_loop_delay = 10
 game_update_delay = 10
 
 
-def switch_scale():
+def switch_scale() -> None:
     global scale
     scale = 1.5 if scale == 1 else 1

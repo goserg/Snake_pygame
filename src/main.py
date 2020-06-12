@@ -1,3 +1,5 @@
+import pygame
+
 from snake import Snake
 from grid import Grid
 from food import Food
@@ -8,7 +10,6 @@ from window_manager import window
 from utils.joystick_controller import JoystickController
 import utils.controller as controller
 import utils.settings as s
-import pygame
 import level
 
 pygame.init()
@@ -23,7 +24,7 @@ controller.joystick = JoystickController()
 controller.keys = pygame.key.get_pressed()
 
 
-def draw():
+def draw() -> None:
     window.fill((0, 0, 0))
 
     level.draw()

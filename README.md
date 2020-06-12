@@ -1,6 +1,8 @@
 # Snake
 Python & pygame
 
+![v0.2 screenshot](img/v.02_screenshot.png?raw=true "v0.2 screenshot") 
+
 supporting XBOX 360 For Windows (Controller)  
 
 pygame 1.9.6 required

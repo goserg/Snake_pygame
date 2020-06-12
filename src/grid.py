@@ -1,13 +1,14 @@
+import pygame
+
 from window_manager import window
 import utils.settings as s
-import pygame
 
 
 class Grid:
-    def __init__(self):
+    def __init__(self) -> None:
         self.rows = s.window_size//s.cell_size
 
-    def draw(self):
+    def draw(self) -> None:
         x = 0
         y = 0
         for _ in range(self.rows):

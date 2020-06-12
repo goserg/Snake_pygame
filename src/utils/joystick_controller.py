@@ -1,8 +1,10 @@
+from typing import Tuple
+
 import pygame
 
 
 class JoystickController:
-    def __init__(self):
+    def __init__(self) -> None:
         if pygame.joystick.get_count() > 0:
             self.enabled = True
             self.joystick = pygame.joystick.Joystick(0)
@@ -12,7 +14,7 @@ class JoystickController:
         else:
             self.enabled = False
 
-    def get_hat(self):
+    def get_hat(self) -> Tuple[int, int]:
         if self.enabled:
             hat = self.joystick.get_hat(0)
             hat_right = hat[0]
@@ -21,10 +23,10 @@ class JoystickController:
                 return hat_right, 0
             return 0, -hut_up
 
-    def is_pause_pressed(self):
+    def is_pause_pressed(self) -> int:
         if self.enabled:
             return self.joystick.get_button(7)
 
-    def is_start_pressed(self):
+    def is_start_pressed(self) -> int:
         if self.enabled:
             return self.joystick.get_button(0)
